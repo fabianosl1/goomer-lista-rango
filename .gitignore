@@ -1,3 +1,6 @@
+.scannerwork
+coverage 
+
 # dev
 .yarn/
 !.yarn/releases

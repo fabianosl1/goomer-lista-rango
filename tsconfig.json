@@ -1,14 +1,18 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "NodeNext",
+    "module": "ESNext",
     "strict": true,
-    "verbatimModuleSyntax": true,
     "skipLibCheck": true,
+    "esModuleInterop": true,
     "types": [
-      "node"
+      "node",
+      "jest"
     ],
-    "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx",
-  }
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["tests/**/*"]
 }
