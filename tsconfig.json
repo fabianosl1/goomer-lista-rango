@@ -14,5 +14,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["tests/**/*"]
+  "include": ["tests/**/*"],
+  "exclude": ["node_modules"]
 }

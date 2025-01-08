@@ -1,5 +1,5 @@
 {
-  "name": "goomer-rango",
+  "name": "goomer-lista-rango",
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
