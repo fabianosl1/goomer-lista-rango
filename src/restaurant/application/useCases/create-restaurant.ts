@@ -1,18 +1,30 @@
+import type { AddressDto } from "@/restaurant/application/dtos/address.dto";
 import type { CreateRestaurantRequestDto } from "@/restaurant/application/dtos/create-restaurant.dto";
 import type { RestaurantResponseDto } from "@/restaurant/application/dtos/restaurant.dto";
-import type { AddressDto } from "@/restaurant/application/dtos/address.dto";
 import { Address } from "@/restaurant/domain/address";
 import type { RestaurantRepository } from "@/restaurant/domain/restaurant.repository";
+import type { ScheduleRestaurantRepository } from "@/schedule/domain/scheduleRestaurant.repository";
 
 export class CreateRestaurantUseCase {
-	constructor(private readonly restaurantRepository: RestaurantRepository) {}
+	constructor(
+		private readonly restaurantRepository: RestaurantRepository,
+		private readonly scheduleRepository: ScheduleRestaurantRepository,
+	) {}
 
 	async execute(
-		request: CreateRestaurantRequestDto,
+		dto: CreateRestaurantRequestDto,
 	): Promise<RestaurantResponseDto> {
-		const address = this.parseAddress(request.address);
+		const address = this.parseAddress(dto.address);
+		const resturant = await this.restaurantRepository.create(dto.name, address);
+		const schedules = await this.scheduleRepository.createBach(
+			resturant.id,
+			dto.schedules,
+		);
 
-		return await this.restaurantRepository.create(request.name, address);
+		return {
+			...resturant,
+			schedules,
+		};
 	}
 
 	private parseAddress({
