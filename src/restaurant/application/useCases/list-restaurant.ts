@@ -7,11 +7,11 @@ export class ListRestaurantUseCase {
 	async execute(): Promise<ListRestaurantResponseDto> {
 		const resturants = await this.restaurantRepository.list();
 
-		return resturants.map((resturant) => ({
-			id: resturant.id,
-			name: resturant.name,
-			picture: resturant.picture,
-			address: resturant.address.toString(),
+		return resturants.map(({ id, name, picture, address }) => ({
+			id,
+			name,
+			picture,
+			address: address.toString(),
 		}));
 	}
 }

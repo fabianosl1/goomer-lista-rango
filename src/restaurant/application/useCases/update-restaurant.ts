@@ -1,9 +1,13 @@
-import type { UpdateRestaurantRequestDto } from "@/restaurant/application/dtos/update-restaurant.dto";
 import type { RestaurantResponseDto } from "@/restaurant/application/dtos/restaurant.dto";
+import type { UpdateRestaurantRequestDto } from "@/restaurant/application/dtos/update-restaurant.dto";
 import type { RestaurantRepository } from "@/restaurant/domain/restaurant.repository";
+import type { ScheduleRestaurantRepository } from "@/schedule/domain/scheduleRestaurant.repository";
 
 export class UpdateRestaurantUseCase {
-	constructor(private readonly restaurantRepository: RestaurantRepository) {}
+	constructor(
+		private readonly restaurantRepository: RestaurantRepository,
+		private readonly scheduleRepository: ScheduleRestaurantRepository,
+	) {}
 
 	async execute(
 		restaurantId: string,
@@ -17,6 +21,14 @@ export class UpdateRestaurantUseCase {
 
 		Object.assign(restaurant, update);
 
-		return await this.restaurantRepository.save(restaurant);
+		await this.restaurantRepository.save(restaurant);
+
+		const schedules =
+			await this.scheduleRepository.listByRestaurantId(restaurantId);
+
+		return {
+			...restaurant,
+			schedules,
+		};
 	}
 }
