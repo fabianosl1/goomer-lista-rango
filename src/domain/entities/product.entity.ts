@@ -1,4 +1,4 @@
-import type { Promotion } from "@/domain/entities/promotion.entity";
+import type { Promotion } from "@/domain/entities/promotion";
 
 export class Product {
 	constructor(

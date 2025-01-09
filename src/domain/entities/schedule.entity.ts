@@ -2,6 +2,7 @@ import { parserToMinutes } from "@/utils/hour";
 
 export class Schedule {
 	constructor(
+		public readonly id: string,
 		public readonly begin: string,
 		public readonly end: string,
 		public readonly day: string,
