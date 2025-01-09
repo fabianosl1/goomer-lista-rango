@@ -22,11 +22,11 @@ describe("parsing input schedule hour to minutes", () => {
 
 describe("entity Schedule", () => {
 	test("when valid input then ok", () => {
-		const result = new Schedule("12:00", "12:15", "sat");
+		const result = new Schedule("0", "12:00", "12:15", "sat");
 		expect(result).toBeInstanceOf(Schedule);
 	});
 
 	test("when valid input then ok", () => {
-		expect(() => new Schedule("12:15", "12:00", "sat")).toThrow();
+		expect(() => new Schedule("0", "12:15", "12:00", "sat")).toThrow();
 	});
 });
