@@ -19,7 +19,7 @@ jobs:
         run: npm ci
 
       - name: run tests
-        run: npm run test
+        run: npm run test:cov
         
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4

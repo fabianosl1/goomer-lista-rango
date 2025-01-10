@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "test": "jest",
+    "test:cov": "jest --coverage",
     "sonar": "sonar-scanner",
     "prepare": "husky",
     "lint": "biome lint ./src/*",
