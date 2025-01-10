@@ -5,10 +5,10 @@ import { mockRestaurantRepository } from "tests/mocks/restaurant-repository";
 import { mockScheduleRestaurantRepository } from "tests/mocks/schedule-repository";
 
 describe("Create restaurant use case", () => {
-	let createRestaurantUseCase: CreateRestaurantUseCase;
+	let createRestaurant: CreateRestaurantUseCase;
 
 	beforeEach(() => {
-		createRestaurantUseCase = new CreateRestaurantUseCase(
+		createRestaurant = new CreateRestaurantUseCase(
 			mockRestaurantRepository,
 			mockScheduleRestaurantRepository,
 		);
@@ -16,7 +16,7 @@ describe("Create restaurant use case", () => {
 
 	test("when valid request then ok", async () => {
 		const input = makeCreateRestaurantDto();
-		const result = await createRestaurantUseCase.execute(input);
+		const result = await createRestaurant.execute(input);
 
 		expect(result).toBeDefined();
 		expect(result.id).toBeDefined();
@@ -31,7 +31,7 @@ describe("Create restaurant use case", () => {
 				makeCreateScheduleDto(),
 			],
 		});
-		const result = await createRestaurantUseCase.execute(input);
+		const result = await createRestaurant.execute(input);
 
 		expect(result).toBeDefined();
 		expect(result.id).toBeDefined();
@@ -47,9 +47,7 @@ describe("Create restaurant use case", () => {
 			],
 		});
 
-		expect(
-			async () => await createRestaurantUseCase.execute(input),
-		).rejects.toThrow();
+		expect(async () => await createRestaurant.execute(input)).rejects.toThrow();
 	});
 
 	test("when empty name then throw error", async () => {
@@ -57,8 +55,6 @@ describe("Create restaurant use case", () => {
 			name: "",
 		});
 
-		expect(
-			async () => await createRestaurantUseCase.execute(input),
-		).rejects.toThrow();
+		expect(async () => await createRestaurant.execute(input)).rejects.toThrow();
 	});
 });
