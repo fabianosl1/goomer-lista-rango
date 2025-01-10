@@ -5,22 +5,16 @@ import { Restaurant } from "@/restaurant/domain/restaurant.entity";
 export function makeRestaurant(data: {
 	id?: string;
 	picture?: string | null;
-	name: string;
-	address: Address;
+	name?: string;
+	address?: Address;
 }) {
-	const { city, neighborhood, number, state, street, zipcode } = data.address;
-	const { id, picture, name } = data;
-
-	const address = Address.builder()
-		.withStreet(street)
-		.withCity(city)
-		.withNumber(number)
-		.withNeighborhood(neighborhood)
-		.withState(state)
-		.withZipcode(zipcode)
-		.build();
-
-	return new Restaurant(id ?? "1", name, picture ?? null, address);
+	const { id, picture, name, address } = data;
+	return new Restaurant(
+		id ?? "1",
+		name ?? "rango brabo",
+		picture ?? null,
+		address ?? makeAddress({}),
+	);
 }
 
 export function makeCreateRestaurantDto(
@@ -42,4 +36,29 @@ export function makeCreateRestaurantDto(
 	Object.assign(dto, input);
 
 	return dto;
+}
+
+function makeAddress({
+	city,
+	street,
+	number,
+	state,
+	neighborhood,
+	zipcode,
+}: {
+	city?: string;
+	street?: string;
+	number?: string | null;
+	state?: string;
+	neighborhood?: string;
+	zipcode?: string;
+}): Address {
+	return new Address(
+		street ?? "rua da luz",
+		number ?? null,
+		state ?? "RJ",
+		city ?? "Rio de janeiro",
+		neighborhood ?? "centro",
+		zipcode ?? "0001",
+	);
 }

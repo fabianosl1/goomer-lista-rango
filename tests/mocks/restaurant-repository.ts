@@ -13,3 +13,11 @@ mockRestaurantRepository.create.mockImplementation(async (name, address) => {
 	const id = mockRestaurantRepository.create.mock.calls.length.toString();
 	return makeRestaurant({ id, name, address });
 });
+
+mockRestaurantRepository.list.mockImplementation(async () => {
+	return [
+		makeRestaurant({ id: "1" }),
+		makeRestaurant({ id: "2" }),
+		makeRestaurant({ id: "3" }),
+	];
+});
