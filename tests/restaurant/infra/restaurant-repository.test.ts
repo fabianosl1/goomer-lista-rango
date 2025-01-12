@@ -1,10 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 import { RestaurantRepository } from "@/restaurant/domain/restaurant.repository";
 import { PrismaRestaurantRepository } from "@/restaurant/infra/PrismaRestaurantRepository";
-import { CreateRestaurantUseCase } from "@/restaurant/application/useCases/create-restaurant";
-import { ListRestaurantUseCase } from "@/restaurant/application/useCases/list-restaurant";
-import { UpdateRestaurantUseCase } from "@/restaurant/application/useCases/update-restaurant";
-import { GetRestaurantUseCase } from "@/restaurant/application/useCases/get-restaurant";
+import {
+	CreateRestaurantUseCase,
+	GetRestaurantUseCase,
+	ListRestaurantUseCase,
+	UpdateRestaurantUseCase,
+} from "@/restaurant/application/useCases";
 import { mockScheduleRestaurantRepository } from "tests/mocks/schedule-repository";
 import { makeCreateRestaurantDto } from "tests/helpers/restaurant-helper";
 
