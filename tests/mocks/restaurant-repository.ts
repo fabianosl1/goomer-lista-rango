@@ -14,6 +14,10 @@ mockRestaurantRepository.create.mockImplementation(async (name, address) => {
 	return makeRestaurant({ id, name, address });
 });
 
+mockRestaurantRepository.get.mockImplementation(async (id) => {
+	return makeRestaurant({ id });
+});
+
 mockRestaurantRepository.list.mockImplementation(async () => {
 	return [
 		makeRestaurant({ id: "1" }),

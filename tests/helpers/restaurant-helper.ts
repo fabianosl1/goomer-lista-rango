@@ -1,4 +1,5 @@
 import { CreateRestaurantRequestDto } from "@/restaurant/application/dtos/create-restaurant.dto";
+import { UpdateRestaurantRequestDto } from "@/restaurant/application/dtos/update-restaurant.dto";
 import { Address } from "@/restaurant/domain/address";
 import { Restaurant } from "@/restaurant/domain/restaurant.entity";
 
