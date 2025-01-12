@@ -9,6 +9,7 @@ export default {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^tests/(.*)$': '<rootDir>/tests/$1', 
   },
+  coveragePathIgnorePatterns: ["<rootDir>/tests/"],
   coverageDirectory: "coverage",
   coverageReporters: ["lcov", "text"]
 };
