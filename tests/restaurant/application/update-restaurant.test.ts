@@ -1,3 +1,4 @@
+import { GetRestaurantUseCase } from "@/restaurant/application/useCases/get-restaurant";
 import { UpdateRestaurantUseCase } from "@/restaurant/application/useCases/update-restaurant";
 import { mockRestaurantRepository } from "tests/mocks/restaurant-repository";
 import { mockScheduleRestaurantRepository } from "tests/mocks/schedule-repository";
@@ -7,9 +8,14 @@ describe("Update restaurant use case tests", () => {
 
 	beforeEach(() => {
 		jest.clearAllMocks();
-		updateRestaurant = new UpdateRestaurantUseCase(
+		const getRestaurant = new GetRestaurantUseCase(
 			mockRestaurantRepository,
 			mockScheduleRestaurantRepository,
+		);
+
+		updateRestaurant = new UpdateRestaurantUseCase(
+			getRestaurant,
+			mockRestaurantRepository,
 		);
 	});
 
