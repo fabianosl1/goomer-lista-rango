@@ -1,3 +1,5 @@
+foo
+
 ```
 npm install
 npm run dev
