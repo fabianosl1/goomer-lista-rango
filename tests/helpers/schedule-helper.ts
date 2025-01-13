@@ -1,5 +1,4 @@
 import { CreateScheduleDto } from "@/schedule/application/dtos/create-schedule.dto";
-import { ScheduleDto } from "@/schedule/application/dtos/schedule.dto";
 import { Schedule } from "@/schedule/domain/schedule.entity";
 
 export function makeSchedule({
