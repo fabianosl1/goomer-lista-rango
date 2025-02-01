@@ -25,7 +25,7 @@ export class PrismaScheduleRestaurantRepository
 		schedules: Omit<Schedule, "id">[],
 	): Promise<Schedule[]> {
 		if (schedules.length === 0) {
-			return []
+			return [];
 		}
 
 		const response = await this.prisma.$queryRaw<ScheduleRestaurant[]>`
@@ -53,8 +53,15 @@ export class PrismaScheduleRestaurantRepository
 		);
 	}
 
-	listByRestaurantId(restaurantId: string): Promise<Schedule[]> {
-		throw new Error("Method not implemented.");
+	async listByRestaurantId(restaurantId: string): Promise<Schedule[]> {
+		const schedules = await this.prisma.$queryRaw<ScheduleRestaurant[]>`
+			select * from restaurant_schedules
+			where restaurant_id = ${Number.parseInt(restaurantId)}
+		`;
+
+		return schedules.map(
+			({ id, begin, end, day }) => new Schedule(id.toString(), begin, end, day),
+		);
 	}
 
 	save(schedule: Schedule): Promise<Schedule> {
