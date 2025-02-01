@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import type { RestaurantRepository } from "@/restaurant/domain/restaurant.repository";
 import { PrismaRestaurantRepository } from "@/restaurant/infra/prisma-restaurant.repository";
 import {
@@ -17,11 +16,6 @@ describe("RestaurantRepository test", () => {
 	let updateRestaurant: UpdateRestaurantUseCase;
 	let listRestaurant: ListRestaurantUseCase;
 	let restaurantId!: string;
-
-	beforeAll(async () => {
-		const prisma = new PrismaClient();
-		await prisma.$executeRaw`truncate table restaurants cascade`;
-	});
 
 	beforeEach(() => {
 		restaurantRepository = new PrismaRestaurantRepository();
