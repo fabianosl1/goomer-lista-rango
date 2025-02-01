@@ -24,6 +24,10 @@ export class PrismaScheduleRestaurantRepository
 		restaurantId: string,
 		schedules: Omit<Schedule, "id">[],
 	): Promise<Schedule[]> {
+		if (schedules.length === 0) {
+			return []
+		}
+
 		const response = await this.prisma.$queryRaw<ScheduleRestaurant[]>`
 			insert into "restaurant_schedules" ("begin", "end", "day", restaurant_id) 
 			values ${Prisma.join(
