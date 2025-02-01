@@ -1,4 +1,4 @@
-import { RestaurantRepository } from "@/restaurant/domain/restaurant.repository";
+import type { RestaurantRepository } from "@/restaurant/domain/restaurant.repository";
 import { makeRestaurant } from "tests/helpers/restaurant-helper";
 
 export const mockRestaurantRepository: jest.Mocked<RestaurantRepository> = {

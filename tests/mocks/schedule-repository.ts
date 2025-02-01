@@ -1,5 +1,5 @@
 import { Schedule } from "@/schedule/domain/schedule.entity";
-import { ScheduleRestaurantRepository } from "@/schedule/domain/scheduleRestaurant.repository";
+import type { ScheduleRestaurantRepository } from "@/schedule/domain/scheduleRestaurant.repository";
 import { makeSchedule } from "tests/helpers/schedule-helper";
 
 export const mockScheduleRestaurantRepository: jest.Mocked<ScheduleRestaurantRepository> =

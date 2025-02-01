@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { RestaurantRepository } from "@/restaurant/domain/restaurant.repository";
+import type { RestaurantRepository } from "@/restaurant/domain/restaurant.repository";
 import { PrismaRestaurantRepository } from "@/restaurant/infra/prisma-restaurant.repository";
 import {
 	CreateRestaurantUseCase,
