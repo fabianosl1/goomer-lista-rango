@@ -5,7 +5,7 @@
     "dev": "tsx watch src/index.ts",
     "test:unit": "jest --testPathIgnorePatterns '/infra/*'",
     "test:e2e": "jest --testPathIgnorePatterns '^(?!.*/infra/).*$'",
-    "test:cov": "jest --coverage --testPathIgnorePatterns '/infra/*'",
+    "test:cov": "jest --coverage --testPathIgnorePatterns",
     "sonar": "sonar-scanner",
     "prepare": "husky",
     "lint": "biome lint ./src/*",
