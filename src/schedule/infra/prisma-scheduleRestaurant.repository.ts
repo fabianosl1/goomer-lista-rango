@@ -1,6 +1,6 @@
-import type { Schedule } from "@/schedule/domain/schedule.entity";
+import { Schedule } from "@/schedule/domain/schedule.entity";
 import type { ScheduleRestaurantRepository } from "@/schedule/domain/scheduleRestaurant.repository";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient, type ScheduleRestaurant } from "@prisma/client";
 
 export class PrismaScheduleRestaurantRepository
 	implements ScheduleRestaurantRepository
@@ -20,11 +20,33 @@ export class PrismaScheduleRestaurantRepository
 		throw new Error("Method not implemented.");
 	}
 
-	createBach(
+	async createBach(
 		restaurantId: string,
 		schedules: Omit<Schedule, "id">[],
 	): Promise<Schedule[]> {
-		throw new Error("Method not implemented.");
+		const response = await this.prisma.$queryRaw<ScheduleRestaurant[]>`
+			insert into "restaurant_schedules" ("begin", "end", "day", restaurant_id) 
+			values ${Prisma.join(
+				schedules.map((schedule) =>
+					Prisma.join(
+						[
+							schedule.begin,
+							schedule.end,
+							schedule.day,
+							Number.parseInt(restaurantId),
+						],
+						",",
+						"(",
+						")",
+					),
+				),
+			)}
+			returning *
+		`;
+
+		return response.map(
+			({ id, begin, end, day }) => new Schedule(id.toString(), begin, end, day),
+		);
 	}
 
 	listByRestaurantId(restaurantId: string): Promise<Schedule[]> {

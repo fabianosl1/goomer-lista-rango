@@ -25,7 +25,7 @@ restaurantController.post(
 	async (ctx) => {
 		const body = ctx.req.valid("json");
 		const restaurant = await createRestaurant.execute(body);
-		return ctx.json(restaurant);
+		return ctx.json(restaurant, 201);
 	},
 );
 
