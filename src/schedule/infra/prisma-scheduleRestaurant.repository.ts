@@ -3,7 +3,8 @@ import type { ScheduleRestaurantRepository } from "@/schedule/domain/scheduleRes
 import { PrismaClient } from "@prisma/client";
 
 export class PrismaScheduleRestaurantRepository
-	implements ScheduleRestaurantRepository {
+	implements ScheduleRestaurantRepository
+{
 	private readonly prisma: PrismaClient;
 
 	constructor() {
