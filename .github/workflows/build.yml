@@ -10,6 +10,20 @@ jobs:
     name: SonarQube
     runs-on: ubuntu-latest
     environment: production
+    services:
+      database:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: admin
+          POSTGRES_USER: admin
+          POSTGRES_DB: goomer
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
     steps:
       - uses: actions/checkout@v4
         with:
@@ -17,10 +31,17 @@ jobs:
       
       - name: Install deps
         run: npm ci
+      
+      - name: Run migrations
+        run: npx prisma migrate dev
+        env:
+          DATABASE_URL: postgresql://admin:admin@localhost:5432/goomer?schema=public
 
       - name: run tests
         run: npm run test:cov
-        
+        env:
+          DATABASE_URL: postgresql://admin:admin@localhost:5432/goomer?schema=public
+
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4
         env:
