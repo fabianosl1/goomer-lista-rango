@@ -1,4 +1,6 @@
-import { CreateRestaurantRequestDto } from "@/restaurant/application/dtos/create-restaurant.dto";
+import { app } from "@/app";
+import type { CreateRestaurantRequestDto } from "@/restaurant/application/dtos/create-restaurant.dto";
+import type { RestaurantResponseDto } from "@/restaurant/application/dtos/restaurant.dto";
 import { UpdateRestaurantRequestDto } from "@/restaurant/application/dtos/update-restaurant.dto";
 import { Address } from "@/restaurant/domain/address";
 import { Restaurant } from "@/restaurant/domain/restaurant.entity";
@@ -62,4 +64,34 @@ function makeAddress({
 		neighborhood ?? "centro",
 		zipcode ?? "0001",
 	);
+}
+
+export async function createRestaurant(
+	body: CreateRestaurantRequestDto,
+): Promise<RestaurantResponseDto> {
+	const response = await app.request("/restaurants", {
+		method: "POST",
+		body: JSON.stringify(body),
+		headers: {
+			"Content-type": "application/json",
+		},
+	});
+
+	if (response.status !== 201) {
+		throw new Error("failed to create restaurant");
+	}
+
+	return await response.json();
+}
+
+export async function getRestaurant(
+	resturantId: string,
+): Promise<RestaurantResponseDto> {
+	const schedule = await app.request(`/restaurants/${resturantId}`);
+
+	if (schedule.status !== 200) {
+		throw new Error("fail to create schedule");
+	}
+
+	return await schedule.json();
 }

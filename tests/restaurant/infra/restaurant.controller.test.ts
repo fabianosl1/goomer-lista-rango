@@ -1,9 +1,11 @@
 import { app } from "@/app";
 import type { ListRestaurantResponseDto } from "@/restaurant/application/dtos/list-restaurant.dto";
 import type { RestaurantResponseDto } from "@/restaurant/application/dtos/restaurant.dto";
-import { makeCreateRestaurantDto } from "tests/helpers/restaurant-helper";
+import {
+	createRestaurant,
+	makeCreateRestaurantDto,
+} from "tests/helpers/restaurant-helper";
 import { makeCreateScheduleDto } from "tests/helpers/schedule-helper";
-import { createRestaurant } from "tests/restaurant/infra/helper";
 
 describe("Restaurant test controller E2E", () => {
 	test("POST /restaurants", async () => {

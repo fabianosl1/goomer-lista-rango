@@ -1,4 +1,6 @@
-import { CreateScheduleRequestDto } from "@/schedule/application/dtos/create-schedule.dto";
+import { app } from "@/app";
+import type { CreateScheduleRequestDto } from "@/schedule/application/dtos/create-schedule.dto";
+import type { ScheduleResponseDto } from "@/schedule/application/dtos/schedule.dto";
 import { Schedule } from "@/schedule/domain/schedule.entity";
 
 export function makeSchedule({
@@ -21,4 +23,23 @@ export function makeCreateScheduleDto(
 
 	Object.assign(dto, input);
 	return dto;
+}
+
+export async function createSchedule(
+	resturantId: string,
+	body: CreateScheduleRequestDto,
+): Promise<ScheduleResponseDto> {
+	const schedule = await app.request(`/restaurants/${resturantId}/schedules`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(body),
+	});
+
+	if (schedule.status !== 201) {
+		throw new Error("fail to create schedule");
+	}
+
+	return await schedule.json();
 }
