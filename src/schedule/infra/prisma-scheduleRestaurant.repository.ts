@@ -11,46 +11,31 @@ export class PrismaScheduleRestaurantRepository
 		this.prisma = new PrismaClient();
 	}
 
-	create(
+	async create(
 		restaurantId: string,
-		begin: string,
-		end: string,
-		day: string,
-	): Promise<Schedule> {
-		throw new Error("Method not implemented.");
+		schedule: Schedule | Schedule[],
+	): Promise<void> {
+		if (Array.isArray(schedule)) {
+			this.createMany(restaurantId, schedule);
+		}
 	}
 
-	async createBach(
+	private async createMany(
 		restaurantId: string,
-		schedules: Omit<Schedule, "id">[],
-	): Promise<Schedule[]> {
+		schedules: Schedule[],
+	): Promise<void> {
 		if (schedules.length === 0) {
-			return [];
+			return;
 		}
-
-		const response = await this.prisma.$queryRaw<ScheduleRestaurant[]>`
+		for (const schedule of schedules) {
+			const [response] = await this.prisma.$queryRaw<ScheduleRestaurant[]>`
 			insert into "restaurant_schedules" ("begin", "end", "day", restaurant_id) 
-			values ${Prisma.join(
-				schedules.map((schedule) =>
-					Prisma.join(
-						[
-							schedule.begin,
-							schedule.end,
-							schedule.day,
-							Number.parseInt(restaurantId),
-						],
-						",",
-						"(",
-						")",
-					),
-				),
-			)}
+			values (${schedule.begin}, ${schedule.end}, ${schedule.day}, ${Number.parseInt(restaurantId)})
 			returning *
-		`;
+			`;
 
-		return response.map(
-			({ id, begin, end, day }) => new Schedule(id.toString(), begin, end, day),
-		);
+			schedule.id = response.id.toString();
+		}
 	}
 
 	async listByRestaurantId(restaurantId: string): Promise<Schedule[]> {
@@ -64,7 +49,7 @@ export class PrismaScheduleRestaurantRepository
 		);
 	}
 
-	save(schedule: Schedule): Promise<Schedule> {
+	save(schedule: Schedule): Promise<void> {
 		throw new Error("Method not implemented.");
 	}
 

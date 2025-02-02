@@ -1,5 +1,5 @@
 import type { AddressDto } from "@/restaurant/application/dtos/address.dto";
-import type { ScheduleDto } from "@/schedule/application/dtos/schedule.dto";
+import { ScheduleDto } from "@/schedule/application/dtos/schedule.dto";
 import type { Restaurant } from "@/restaurant/domain/restaurant.entity";
 import type { Schedule } from "@/schedule/domain/schedule.entity";
 
@@ -19,6 +19,6 @@ export class RestaurantResponseDto {
 		this.name = restaurant.name;
 		this.picture = restaurant.picture;
 		this.address = restaurant.address;
-		this.schedules = schedules;
+		this.schedules = schedules.map((schedule) => new ScheduleDto(schedule));
 	}
 }

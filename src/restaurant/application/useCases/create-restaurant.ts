@@ -1,6 +1,8 @@
 import type { CreateRestaurantRequestDto } from "@/restaurant/application/dtos/create-restaurant.dto";
+import type { CreateScheduleDto } from "@/schedule/application/dtos/create-schedule.dto";
 import { RestaurantResponseDto } from "@/restaurant/application/dtos/restaurant.dto";
 import { Address } from "@/restaurant/domain/address";
+import { Schedule } from "@/schedule/domain/schedule.entity";
 import { Restaurant } from "@/restaurant/domain/restaurant.entity";
 import type { RestaurantRepository } from "@/restaurant/domain/restaurant.repository";
 import type { ScheduleRestaurantRepository } from "@/schedule/domain/scheduleRestaurant.repository";
@@ -15,13 +17,10 @@ export class CreateRestaurantUseCase {
 		dto: CreateRestaurantRequestDto,
 	): Promise<RestaurantResponseDto> {
 		const restaurant = this.parseEntity(dto);
+		const schedules = this.parseScheduleEntity(dto.schedules);
 
 		await this.restaurantRepository.save(restaurant);
-
-		const schedules = await this.scheduleRepository.createBach(
-			restaurant.id,
-			dto.schedules,
-		);
+		await this.scheduleRepository.create(restaurant.id, schedules);
 
 		return new RestaurantResponseDto(restaurant, schedules);
 	}
@@ -38,5 +37,12 @@ export class CreateRestaurantUseCase {
 			.build();
 
 		return new Restaurant(null, dto.name, null, address);
+	}
+
+	private parseScheduleEntity(schedules: CreateScheduleDto[]) {
+		return schedules.map(
+			(schedule) =>
+				new Schedule(null, schedule.begin, schedule.end, schedule.day),
+		);
 	}
 }

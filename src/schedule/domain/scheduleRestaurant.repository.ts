@@ -3,14 +3,8 @@ import type { ScheduleRepository } from "@/schedule/domain/schedule.repository";
 
 export interface ScheduleRestaurantRepository extends ScheduleRepository {
 	create(
-		restaurantId: string,
-		begin: string,
-		end: string,
-		day: string,
-	): Promise<Schedule>;
-	createBach(
 		restaurantId: string | null,
-		schedules: Omit<Schedule, "id">[],
-	): Promise<Schedule[]>;
+		schedule: Schedule | Schedule[],
+	): Promise<void>;
 	listByRestaurantId(restaurantId: string): Promise<Schedule[]>;
 }
