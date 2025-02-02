@@ -11,6 +11,20 @@ export class PrismaScheduleRestaurantRepository
 		this.prisma = new PrismaClient();
 	}
 
+	async get(scheduleId: string): Promise<Schedule> {
+		const [response] = await this.prisma.$queryRaw<ScheduleRestaurant[]>`
+			select * from restaurant_schedules
+			where id = ${Number.parseInt(scheduleId)}
+		`;
+
+		return new Schedule(
+			response.id.toString(),
+			response.begin,
+			response.end,
+			response.day,
+		);
+	}
+
 	async create(restaurantId: string, schedule: Schedule): Promise<void> {
 		const [response] = await this.prisma.$queryRaw<ScheduleRestaurant[]>`
 		insert into "restaurant_schedules" ("begin", "end", "day", restaurant_id) 
@@ -32,11 +46,18 @@ export class PrismaScheduleRestaurantRepository
 		);
 	}
 
-	save(schedule: Schedule): Promise<void> {
-		throw new Error("Method not implemented.");
+	async save(schedule: Schedule): Promise<void> {
+		await this.prisma.$executeRaw`
+			update restaurant_schedules
+			set 'begin' = ${schedule.begin}, 'end' = ${schedule.end}, 'day' = ${schedule.day}
+			where id = ${schedule.id}
+		`;
 	}
 
-	destroy(scheduleId: string): Promise<void> {
-		throw new Error("Method not implemented.");
+	async destroy(scheduleId: string): Promise<void> {
+		await this.prisma.$executeRaw`
+			delete from restaurant_schedules
+			where id = ${scheduleId}
+		`;
 	}
 }
