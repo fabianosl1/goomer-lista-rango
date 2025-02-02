@@ -2,6 +2,7 @@ import type { ScheduleRestaurantRepository } from "@/schedule/domain/scheduleRes
 
 export const mockScheduleRestaurantRepository: jest.Mocked<ScheduleRestaurantRepository> =
 	{
+		get: jest.fn(),
 		create: jest.fn(),
 		destroy: jest.fn(),
 		save: jest.fn(),
@@ -10,10 +11,7 @@ export const mockScheduleRestaurantRepository: jest.Mocked<ScheduleRestaurantRep
 
 mockScheduleRestaurantRepository.create.mockImplementation(
 	async (_restaurantId, data) => {
-		if (Array.isArray(data)) {
-			for (let i = 0; i < data.length; i++) {
-				data[i].id = i.toString();
-			}
-		}
+		data.id =
+			mockScheduleRestaurantRepository.create.mock.calls.length.toString();
 	},
 );

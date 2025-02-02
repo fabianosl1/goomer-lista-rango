@@ -1,4 +1,4 @@
-import { CreateScheduleDto } from "@/schedule/application/dtos/create-schedule.dto";
+import { CreateScheduleRequestDto } from "@/schedule/application/dtos/create-schedule.dto";
 import { Schedule } from "@/schedule/domain/schedule.entity";
 
 export function makeSchedule({
@@ -11,8 +11,8 @@ export function makeSchedule({
 }
 
 export function makeCreateScheduleDto(
-	input?: Partial<CreateScheduleDto>,
-): CreateScheduleDto {
+	input?: Partial<CreateScheduleRequestDto>,
+): CreateScheduleRequestDto {
 	const dto = {
 		begin: "12:00",
 		end: "20:00",
