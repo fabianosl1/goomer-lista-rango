@@ -11,31 +11,14 @@ export class PrismaScheduleRestaurantRepository
 		this.prisma = new PrismaClient();
 	}
 
-	async create(
-		restaurantId: string,
-		schedule: Schedule | Schedule[],
-	): Promise<void> {
-		if (Array.isArray(schedule)) {
-			this.createMany(restaurantId, schedule);
-		}
-	}
+	async create(restaurantId: string, schedule: Schedule): Promise<void> {
+		const [response] = await this.prisma.$queryRaw<ScheduleRestaurant[]>`
+		insert into "restaurant_schedules" ("begin", "end", "day", restaurant_id) 
+		values (${schedule.begin}, ${schedule.end}, ${schedule.day}, ${Number.parseInt(restaurantId)})
+		returning *
+		`;
 
-	private async createMany(
-		restaurantId: string,
-		schedules: Schedule[],
-	): Promise<void> {
-		if (schedules.length === 0) {
-			return;
-		}
-		for (const schedule of schedules) {
-			const [response] = await this.prisma.$queryRaw<ScheduleRestaurant[]>`
-			insert into "restaurant_schedules" ("begin", "end", "day", restaurant_id) 
-			values (${schedule.begin}, ${schedule.end}, ${schedule.day}, ${Number.parseInt(restaurantId)})
-			returning *
-			`;
-
-			schedule.id = response.id.toString();
-		}
+		schedule.id = response.id.toString();
 	}
 
 	async listByRestaurantId(restaurantId: string): Promise<Schedule[]> {

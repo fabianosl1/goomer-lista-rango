@@ -6,6 +6,9 @@ import {
 } from "@/restaurant/application/useCases";
 import { DeleteRestaurantUseCase } from "@/restaurant/application/useCases/delete-restaurant";
 import { PrismaRestaurantRepository } from "@/restaurant/infra/prisma-restaurant.repository";
+import { CreateScheduleRestaurantUseCase } from "@/schedule/application/use-cases/create-schedule-restaurant";
+import { deleteScheduleRestaurantUseCase } from "@/schedule/application/use-cases/delete-schedule-restaurant";
+import { updateScheduleRestaurantUseCase } from "@/schedule/application/use-cases/update-schedule-restaurant";
 import { PrismaScheduleRestaurantRepository } from "@/schedule/infra/prisma-scheduleRestaurant.repository";
 
 const restaurantRepository = new PrismaRestaurantRepository();
@@ -26,10 +29,25 @@ const updateRestaurant = new UpdateRestaurantUseCase(
 );
 const deleteRestaurant = new DeleteRestaurantUseCase(restaurantRepository);
 
+const createScheduleRestaurant = new CreateScheduleRestaurantUseCase(
+	scheduleRestaurantRepository,
+);
+
+const updateScheduleRestaurant = new updateScheduleRestaurantUseCase(
+	scheduleRestaurantRepository,
+);
+
+const deleteScheduleRestaurant = new deleteScheduleRestaurantUseCase(
+	scheduleRestaurantRepository,
+);
+
 export {
 	listRestaurant,
 	getRestaurant,
 	createRestaurant,
 	updateRestaurant,
 	deleteRestaurant,
+	createScheduleRestaurant,
+	updateScheduleRestaurant,
+	deleteScheduleRestaurant,
 };

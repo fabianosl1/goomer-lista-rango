@@ -20,7 +20,10 @@ export class CreateRestaurantUseCase {
 		const schedules = this.parseScheduleEntity(dto.schedules);
 
 		await this.restaurantRepository.save(restaurant);
-		await this.scheduleRepository.create(restaurant.id, schedules);
+
+		for (const schedule of schedules) {
+			await this.scheduleRepository.create(restaurant.id, schedule);
+		}
 
 		return new RestaurantResponseDto(restaurant, schedules);
 	}
