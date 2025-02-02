@@ -1,7 +1,7 @@
 import {
 	createResturantSchema,
 	updateRestaurantSchema,
-} from "@/restaurant/infra/restaurant.schemas";
+} from "@/shared/schemas";
 import {
 	createRestaurant,
 	deleteRestaurant,
@@ -34,6 +34,7 @@ restaurantController.patch(
 	zValidator("json", updateRestaurantSchema),
 	async (ctx) => {
 		const body = ctx.req.valid("json");
+
 		const restaurantId = ctx.req.param("id");
 		const restaurant = updateRestaurant.execute(restaurantId, body);
 		return ctx.json(restaurant);

@@ -1,5 +1,5 @@
 import type { CreateRestaurantRequestDto } from "@/restaurant/application/dtos/create-restaurant.dto";
-import type { CreateScheduleDto } from "@/schedule/application/dtos/create-schedule.dto";
+import type { CreateScheduleRequestDto } from "@/schedule/application/dtos/create-schedule.dto";
 import { RestaurantResponseDto } from "@/restaurant/application/dtos/restaurant.dto";
 import { Address } from "@/restaurant/domain/address";
 import { Schedule } from "@/schedule/domain/schedule.entity";
@@ -42,7 +42,7 @@ export class CreateRestaurantUseCase {
 		return new Restaurant(null, dto.name, null, address);
 	}
 
-	private parseScheduleEntity(schedules: CreateScheduleDto[]) {
+	private parseScheduleEntity(schedules: CreateScheduleRequestDto[]) {
 		return schedules.map(
 			(schedule) =>
 				new Schedule(null, schedule.begin, schedule.end, schedule.day),
