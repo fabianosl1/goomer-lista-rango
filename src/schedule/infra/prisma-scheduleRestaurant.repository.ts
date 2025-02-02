@@ -47,17 +47,21 @@ export class PrismaScheduleRestaurantRepository
 	}
 
 	async save(schedule: Schedule): Promise<void> {
+		if (schedule.id === null) {
+			throw new Error("schedule without id");
+		}
+
 		await this.prisma.$executeRaw`
 			update restaurant_schedules
-			set 'begin' = ${schedule.begin}, 'end' = ${schedule.end}, 'day' = ${schedule.day}
-			where id = ${schedule.id}
+			set "begin" = ${schedule.begin}, "end" = ${schedule.end}, "day" = ${schedule.day}
+			where id = ${Number.parseInt(schedule.id)}
 		`;
 	}
 
 	async destroy(scheduleId: string): Promise<void> {
 		await this.prisma.$executeRaw`
 			delete from restaurant_schedules
-			where id = ${scheduleId}
+			where id = ${Number.parseInt(scheduleId)}
 		`;
 	}
 }

@@ -20,7 +20,7 @@ scheduleRestaurantController.post(
 			restaurantId,
 			body,
 		);
-		return ctx.json(restaurant);
+		return ctx.json(restaurant, 201);
 	},
 );
 
@@ -40,5 +40,6 @@ scheduleRestaurantController.delete("/:id", async (ctx) => {
 	const scheduleId = ctx.req.param("id");
 
 	await deleteScheduleRestaurant.execute(scheduleId);
-	return ctx.status(204);
+
+	return ctx.body(null, 204);
 });
