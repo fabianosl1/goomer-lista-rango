@@ -10,7 +10,7 @@ import {
 type RestaurantQueryResult = StoredRestaurant & Omit<StoredAddress, "id">;
 
 export class PrismaRestaurantRepository implements RestaurantRepository {
-	private prisma: PrismaClient;
+	private readonly prisma: PrismaClient;
 
 	constructor() {
 		this.prisma = new PrismaClient();

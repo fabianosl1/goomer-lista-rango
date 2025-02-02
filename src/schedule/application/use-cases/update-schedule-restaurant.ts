@@ -3,7 +3,7 @@ import type { UpdateScheduleDto } from "@/schedule/application/dtos/update-sched
 import { Schedule } from "@/schedule/domain/schedule.entity";
 import type { ScheduleRestaurantRepository } from "@/schedule/domain/scheduleRestaurant.repository";
 
-export class updateScheduleRestaurantUseCase {
+export class UpdateScheduleRestaurantUseCase {
 	constructor(
 		private readonly scheduleRestaurantRepository: ScheduleRestaurantRepository,
 	) {}

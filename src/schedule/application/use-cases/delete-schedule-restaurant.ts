@@ -1,6 +1,6 @@
 import type { ScheduleRestaurantRepository } from "@/schedule/domain/scheduleRestaurant.repository";
 
-export class deleteScheduleRestaurantUseCase {
+export class DeleteScheduleRestaurantUseCase {
 	constructor(
 		private readonly scheduleRestaurantRepository: ScheduleRestaurantRepository,
 	) {}

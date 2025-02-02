@@ -1,6 +1,6 @@
 import { Schedule } from "@/schedule/domain/schedule.entity";
 import type { ScheduleRestaurantRepository } from "@/schedule/domain/scheduleRestaurant.repository";
-import { Prisma, PrismaClient, type ScheduleRestaurant } from "@prisma/client";
+import { PrismaClient, type ScheduleRestaurant } from "@prisma/client";
 
 export class PrismaScheduleRestaurantRepository
 	implements ScheduleRestaurantRepository
