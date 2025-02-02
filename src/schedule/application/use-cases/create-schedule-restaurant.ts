@@ -1,5 +1,5 @@
 import type { CreateScheduleRequestDto } from "@/schedule/application/dtos/create-schedule.dto";
-import { ScheduleDto } from "@/schedule/application/dtos/schedule.dto";
+import { ScheduleResponseDto } from "@/schedule/application/dtos/schedule.dto";
 import { Schedule } from "@/schedule/domain/schedule.entity";
 import type { ScheduleRestaurantRepository } from "@/schedule/domain/scheduleRestaurant.repository";
 
@@ -11,9 +11,9 @@ export class CreateScheduleRestaurantUseCase {
 	async execute(
 		restaurantId: string,
 		dto: CreateScheduleRequestDto,
-	): Promise<ScheduleDto> {
+	): Promise<ScheduleResponseDto> {
 		const schedule = new Schedule(null, dto.begin, dto.end, dto.day);
 		await this.scheduleRepository.create(restaurantId, schedule);
-		return new ScheduleDto(schedule);
+		return new ScheduleResponseDto(schedule);
 	}
 }

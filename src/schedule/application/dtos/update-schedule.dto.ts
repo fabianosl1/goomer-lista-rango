@@ -1,3 +1,3 @@
-import type { ScheduleDto } from "@/schedule/application/dtos/schedule.dto";
+import type { ScheduleResponseDto } from "@/schedule/application/dtos/schedule.dto";
 
-export type UpdateScheduleDto = Partial<ScheduleDto>;
+export type UpdateScheduleDto = Partial<Omit<ScheduleResponseDto, "id">>;

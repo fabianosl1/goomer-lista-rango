@@ -1,4 +1,4 @@
-import { ScheduleDto } from "@/schedule/application/dtos/schedule.dto";
+import { ScheduleResponseDto } from "@/schedule/application/dtos/schedule.dto";
 import type { UpdateScheduleDto } from "@/schedule/application/dtos/update-schedule.dto";
 import { Schedule } from "@/schedule/domain/schedule.entity";
 import type { ScheduleRestaurantRepository } from "@/schedule/domain/scheduleRestaurant.repository";
@@ -11,7 +11,7 @@ export class updateScheduleRestaurantUseCase {
 	async execute(
 		scheduleId: string,
 		dto: UpdateScheduleDto,
-	): Promise<ScheduleDto> {
+	): Promise<ScheduleResponseDto> {
 		const stored = await this.scheduleRestaurantRepository.get(scheduleId);
 
 		const schedule = new Schedule(
@@ -23,6 +23,6 @@ export class updateScheduleRestaurantUseCase {
 
 		await this.scheduleRestaurantRepository.save(schedule);
 
-		return new ScheduleDto(schedule);
+		return new ScheduleResponseDto(schedule);
 	}
 }

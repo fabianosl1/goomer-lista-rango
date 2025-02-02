@@ -1,6 +1,6 @@
 import type { Schedule } from "@/schedule/domain/schedule.entity";
 
-export class ScheduleDto {
+export class ScheduleResponseDto {
 	public readonly id: string;
 	public readonly begin: string;
 	public readonly end: string;
