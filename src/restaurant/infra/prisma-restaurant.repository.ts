@@ -16,37 +16,41 @@ export class PrismaRestaurantRepository implements RestaurantRepository {
 		this.prisma = new PrismaClient();
 	}
 
-	async create(name: string, address: Address): Promise<Restaurant> {
-		const [restaurant] = await this.prisma.$queryRaw<StoredRestaurant[]>`
+	async save(restaurant: Restaurant): Promise<void> {
+		if (restaurant.id === null) {
+			await this.create(restaurant);
+		} else {
+			await this.prisma.$executeRaw`
+				update restaurants
+				set name = ${restaurant.name}, picture = ${restaurant.picture}
+				where id = ${Number.parseInt(restaurant.id)}
+			`;
+
+			const { address } = restaurant;
+
+			await this.prisma.$executeRaw`
+				update restaurant_addresses
+				set street = ${address.street}, number = ${address.number}, state = ${address.state}, city = ${address.city}, neighborhood = ${address.neighborhood}, zipcode = ${address.zipcode}
+				where restaurant_id = ${Number.parseInt(restaurant.id)}
+			`;
+		}
+	}
+
+	private async create(restaurant: Restaurant): Promise<void> {
+		const address = restaurant.address;
+
+		const [stored] = await this.prisma.$queryRaw<StoredRestaurant[]>`
             insert into restaurants (name) 
-            values (${name}) 
+            values (${restaurant.name}) 
             returning *
         `;
 
 		await this.prisma.$queryRaw`
             insert into restaurant_addresses (street, number, state, city, neighborhood, zipcode, restaurant_id)
-            values (${address.street}, ${address.number}, ${address.state},${address.city}, ${address.neighborhood}, ${address.zipcode}, ${restaurant.id})
+            values (${address.street}, ${address.number}, ${address.state},${address.city}, ${address.neighborhood}, ${address.zipcode}, ${stored.id})
         `;
 
-		return this.createRestaurant(restaurant, address);
-	}
-
-	async save(resturant: Restaurant): Promise<Restaurant> {
-		await this.prisma.$executeRaw`
-            update restaurants
-            set name = ${resturant.name}, picture = ${resturant.picture}
-            where id = ${Number.parseInt(resturant.id)}
-        `;
-
-		const { address } = resturant;
-
-		await this.prisma.$executeRaw`
-            update restaurant_addresses
-             set street = ${address.street}, number = ${address.number}, state = ${address.state}, city = ${address.city}, neighborhood = ${address.neighborhood}, zipcode = ${address.zipcode}
-             where restaurant_id = ${Number.parseInt(resturant.id)}
-        `;
-
-		return resturant;
+		restaurant.id = stored.id.toString();
 	}
 
 	async list(): Promise<Restaurant[]> {
@@ -94,24 +98,14 @@ export class PrismaRestaurantRepository implements RestaurantRepository {
 		return this.parseResult(stored);
 	}
 
-	destroy(id: string): Promise<void> {
-		throw new Error("Method not implemented.");
-	}
-
-	private createRestaurant(
-		stored: StoredRestaurant,
-		address: Address,
-	): Restaurant {
-		return new Restaurant(
-			stored.id.toString(),
-			stored.name,
-			stored.picture,
-			address,
-		);
+	async destroy(restaurantId: string): Promise<void> {
+		await this.prisma.$executeRaw`
+		delete from restaurant
+		where id = ${restaurantId}
+		`;
 	}
 
 	private parseResult(stored: RestaurantQueryResult): Restaurant {
-		const { id, name, picture } = stored;
 		const address = new Address(
 			stored.street,
 			stored.number,
@@ -120,6 +114,12 @@ export class PrismaRestaurantRepository implements RestaurantRepository {
 			stored.neighborhood,
 			stored.zipcode,
 		);
-		return this.createRestaurant({ id, name, picture }, address);
+
+		return new Restaurant(
+			stored.id.toString(),
+			stored.name,
+			stored.picture,
+			address,
+		);
 	}
 }

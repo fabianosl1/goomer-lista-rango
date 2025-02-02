@@ -9,7 +9,7 @@ export interface ScheduleRestaurantRepository extends ScheduleRepository {
 		day: string,
 	): Promise<Schedule>;
 	createBach(
-		restaurantId: string,
+		restaurantId: string | null,
 		schedules: Omit<Schedule, "id">[],
 	): Promise<Schedule[]>;
 	listByRestaurantId(restaurantId: string): Promise<Schedule[]>;

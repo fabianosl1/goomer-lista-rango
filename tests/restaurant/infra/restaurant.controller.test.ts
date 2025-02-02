@@ -24,6 +24,7 @@ describe("Restaurant test controller E2E", () => {
 		const restaurant: RestaurantResponseDto = await response.json();
 
 		expect(restaurant.id).toBeDefined();
+		expect(restaurant.id).not.toBeNull();
 		expect(restaurant.name).toBe(body.name);
 		expect(restaurant.schedules[0].id).toBeDefined();
 	});
@@ -41,6 +42,7 @@ describe("Restaurant test controller E2E", () => {
 
 		for (const restaurant of restaurants) {
 			expect(restaurant.id).toBeDefined();
+			expect(restaurant.id).not.toBeNull();
 			expect(typeof restaurant.address).toBe("string");
 			expect(restaurant.picture).toBeDefined();
 		}
@@ -56,6 +58,7 @@ describe("Restaurant test controller E2E", () => {
 		const restaurant: RestaurantResponseDto = await response.json();
 
 		expect(restaurant.id).toBeDefined();
+		expect(restaurant.id).not.toBeNull();
 		expect(restaurant).toEqual(created);
 	});
 });

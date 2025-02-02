@@ -1,4 +1,4 @@
-import type { RestaurantResponseDto } from "@/restaurant/application/dtos/restaurant.dto";
+import { RestaurantResponseDto } from "@/restaurant/application/dtos/restaurant.dto";
 import type { RestaurantRepository } from "@/restaurant/domain/restaurant.repository";
 import type { ScheduleRestaurantRepository } from "@/schedule/domain/scheduleRestaurant.repository";
 
@@ -18,9 +18,6 @@ export class GetRestaurantUseCase {
 		const schedules =
 			await this.scheduleRepository.listByRestaurantId(restaurantId);
 
-		return {
-			...restaurant,
-			schedules,
-		};
+		return new RestaurantResponseDto(restaurant, schedules);
 	}
 }

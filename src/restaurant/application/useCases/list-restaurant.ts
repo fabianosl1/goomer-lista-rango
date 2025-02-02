@@ -1,4 +1,7 @@
-import type { ListRestaurantResponseDto } from "@/restaurant/application/dtos/list-restaurant.dto";
+import {
+	RestaurantItem,
+	type ListRestaurantResponseDto,
+} from "@/restaurant/application/dtos/list-restaurant.dto";
 import type { RestaurantRepository } from "@/restaurant/domain/restaurant.repository";
 
 export class ListRestaurantUseCase {
@@ -6,12 +9,6 @@ export class ListRestaurantUseCase {
 
 	async execute(): Promise<ListRestaurantResponseDto> {
 		const resturants = await this.restaurantRepository.list();
-
-		return resturants.map(({ id, name, picture, address }) => ({
-			id,
-			name,
-			picture,
-			address: address.toString(),
-		}));
+		return resturants.map((restaurant) => new RestaurantItem(restaurant));
 	}
 }
