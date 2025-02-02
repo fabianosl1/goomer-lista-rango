@@ -2,16 +2,17 @@ import type { RestaurantRepository } from "@/restaurant/domain/restaurant.reposi
 import { makeRestaurant } from "tests/helpers/restaurant-helper";
 
 export const mockRestaurantRepository: jest.Mocked<RestaurantRepository> = {
-	create: jest.fn(),
 	destroy: jest.fn(),
 	get: jest.fn(),
 	list: jest.fn(),
 	save: jest.fn(),
 };
 
-mockRestaurantRepository.create.mockImplementation(async (name, address) => {
-	const id = mockRestaurantRepository.create.mock.calls.length.toString();
-	return makeRestaurant({ id, name, address });
+mockRestaurantRepository.save.mockImplementation(async (restaurant) => {
+	if (restaurant.id === null) {
+		const id = mockRestaurantRepository.save.mock.calls.length.toString();
+		restaurant.id = id;
+	}
 });
 
 mockRestaurantRepository.get.mockImplementation(async (id) => {
